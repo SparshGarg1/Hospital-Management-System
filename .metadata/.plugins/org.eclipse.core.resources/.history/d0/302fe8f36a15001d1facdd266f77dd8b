@@ -1,0 +1,39 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.PreparedStatement;
+
+@WebServlet("/DoctorReg")
+public class DoctorReg extends HttpServlet {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		String name = request.getParameter("name");
+		String qualification = request.getParameter("qualification");
+		String specialist = request.getParameter("specialist");
+		String email = request.getParameter("email");
+		String mobile = request.getParameter("mobile");
+		String password = request.getParameter("password");
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hos", "root", "sparsh1574");
+			String qr = insert into doctor values()
+			PreparedStatement ps = con.prepareStatement(qr);
+			S
+		}
+		catch (Exception e) {
+			out.println(e);
+		}
+	}
+
+}

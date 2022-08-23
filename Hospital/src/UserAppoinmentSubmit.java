@@ -1,0 +1,59 @@
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/UserAppoinmentSubmit")
+public class UserAppoinmentSubmit extends HttpServlet {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		String name = request.getParameter("name");
+		String gender = request.getParameter("gender");
+		String age1 = request.getParameter("age");
+		int age = Integer.parseInt(age1);
+		String appdate = request.getParameter("appdate");
+		String email = request.getParameter("email");
+		String mobile = request.getParameter("mobile");
+		String disease = request.getParameter("Disease");
+		String doctor = request.getParameter("doctor");
+		String user = request.getParameter("email");
+		try 
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/hos", "root", "sparsh1574");
+			String qr = "insert into appoinment(name, gender, age, appdate, email, mobile, Disease, doctor, user) values (?,?,?,?,?,?,?,?,?)";
+			PreparedStatement ps = con.prepareStatement(qr);
+			ps.setString(1, name);
+			ps.setString(2, gender);
+			ps.setInt(3, age);
+			ps.setString(4, appdate);
+			ps.setString(5, email);
+			ps.setString(6, mobile);
+			ps.setString(7, disease);
+			ps.setString(8, doctor);
+			ps.setString(9, user);
+			int i = ps.executeUpdate();
+			if(i>0)
+			{
+				RequestDispatcher rd = request.getRequestDispatcher("userportal.jsp");
+				rd.include(request, response);
+				out.println("<script>window.alert('Appoinment Booked Sucessfully');</script>");
+			}
+			con.close();
+		} 
+		catch (Exception e) 
+		{
+			out.println(e);
+		}
+	}
+
+}
